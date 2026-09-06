@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Classes &amp; Sections | Green Valley Public School</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <aside class="sidebar" id="app-sidebar"></aside>
+
+    <main class="main-content">
+      <header class="topbar" id="app-topbar"></header>
+
+      <div class="page-body">
+        <div class="page-header">
+          <div class="page-header-title">
+            <h1>Class &amp; Section Management</h1>
+            <p>Classrooms, sections (A, B, C), assigned class teachers &amp; student capacity</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-primary" id="open-add-class-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+              Add Class / Section
+            </button>
+          </div>
+        </div>
+
+        <!-- Class Metric Overview -->
+        <div class="metrics-grid" id="class-summary-cards">
+          <!-- Dynamically computed -->
+        </div>
+
+        <!-- Class Cards Grid -->
+        <div class="card" style="margin-bottom: 24px;">
+          <div class="card-header">
+            <div class="card-title">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+              <span>Configured Classes &amp; Sections</span>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Class Name</th>
+                  <th>Section</th>
+                  <th>Class Teacher</th>
+                  <th>Room / Lab</th>
+                  <th>Enrolled Students</th>
+                  <th>Capacity</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="classes-table-body">
+                <!-- Loaded via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Class Modal -->
+  <div class="modal-overlay" id="class-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="class-modal-title">Create Class &amp; Section</h3>
+        <button type="button" class="modal-close" onclick="Utils.closeModal('class-modal')">&times;</button>
+      </div>
+      <form id="class-form">
+        <input type="hidden" id="class-form-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="cls-name">Class Name <span class="required">*</span></label>
+            <select id="cls-name" class="form-control form-select" required></select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="cls-section">Section <span class="required">*</span></label>
+              <select id="cls-section" class="form-control form-select" required>
+                <option value="A">Section A</option>
+                <option value="B">Section B</option>
+                <option value="C">Section C</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cls-room">Room / Hall</label>
+              <input type="text" id="cls-room" class="form-control" placeholder="e.g. Room 204 / Lab 1">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="cls-teacher">Assigned Class Teacher</label>
+              <select id="cls-teacher" class="form-control form-select"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cls-capacity">Max Capacity</label>
+              <input type="number" id="cls-capacity" class="form-control" min="10" max="60" value="40" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="Utils.closeModal('class-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-class-btn">Save Class</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/permissions.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/classes.js"></script>
+</body>
+</html>

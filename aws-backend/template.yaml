@@ -1,0 +1,549 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Green Valley Public School - Jalandhar, Punjab, India
+  AWS Serverless School Management System Infrastructure (SAM)
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: nodejs20.x
+    MemorySize: 256
+    Environment:
+      Variables:
+        STUDENTS_TABLE: !Ref StudentsTable
+        TEACHERS_TABLE: !Ref TeachersTable
+        ATTENDANCE_TABLE: !Ref AttendanceTable
+        MARKS_TABLE: !Ref MarksTable
+        FEES_TABLE: !Ref FeesTable
+        ANNOUNCEMENTS_TABLE: !Ref AnnouncementsTable
+
+Resources:
+  # =========================================================================
+  # 1. AMAZON COGNITO (Authentication & Role Groups)
+  # =========================================================================
+  SchoolUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: gvps-user-pool-jalandhar
+      UsernameAttributes:
+        - email
+      AutoVerifiedAttributes:
+        - email
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 8
+          RequireUppercase: true
+          RequireLowercase: true
+          RequireNumbers: true
+          RequireSymbols: false
+      Schema:
+        - Name: email
+          AttributeDataType: String
+          Required: true
+          Mutable: true
+        - Name: role
+          AttributeDataType: String
+          Mutable: true
+
+  SchoolUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName: gvps-web-client
+      UserPoolId: !Ref SchoolUserPool
+      GenerateSecret: false
+      ExplicitAuthFlows:
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+
+  SuperAdminUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Super Admin
+      UserPoolId: !Ref SchoolUserPool
+      Description: Complete School System Authority & Cloud Security Master
+      Precedence: 1
+
+  AdminUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Admin
+      UserPoolId: !Ref SchoolUserPool
+      Description: School Administrators & Operations
+      Precedence: 2
+
+  PrincipalUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Principal
+      UserPoolId: !Ref SchoolUserPool
+      Description: Academic Leadership & Staff Supervision
+      Precedence: 3
+
+  AccountantUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Accountant
+      UserPoolId: !Ref SchoolUserPool
+      Description: Fee Collection & Financial Accounting
+      Precedence: 4
+
+  LibrarianUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Librarian
+      UserPoolId: !Ref SchoolUserPool
+      Description: Library Inventory & Book Issues
+      Precedence: 5
+
+  ReceptionistUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Receptionist
+      UserPoolId: !Ref SchoolUserPool
+      Description: Front Desk & Student Admissions
+      Precedence: 6
+
+  TeacherUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Teacher
+      UserPoolId: !Ref SchoolUserPool
+      Description: Assigned Class Teachers & Subject Faculty
+      Precedence: 7
+
+  StudentUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Student
+      UserPoolId: !Ref SchoolUserPool
+      Description: Enrolled Students
+      Precedence: 8
+
+  ParentUserGroup:
+    Type: AWS::Cognito::UserPoolGroup
+    Properties:
+      GroupName: Parent
+      UserPoolId: !Ref SchoolUserPool
+      Description: Parents & Legal Guardians
+      Precedence: 9
+
+  # =========================================================================
+  # 2. AMAZON DYNAMODB TABLES
+  # =========================================================================
+  StudentsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GVPS_Students
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  TeachersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GVPS_Teachers
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  AttendanceTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GVPS_Attendance
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  MarksTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GVPS_Marks
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  FeesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GVPS_Fees
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  AnnouncementsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GVPS_Announcements
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  UsersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GVPS_Users
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  AuditLogsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GVPS_AuditLogs
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  LibraryTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: GVPS_Library
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+
+  # =========================================================================
+  # 3. AMAZON S3 STORAGE
+  # =========================================================================
+  SchoolDocumentBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub gvps-school-documents-jalandhar-${AWS::AccountId}
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  # =========================================================================
+  # 4. AMAZON API GATEWAY (REST API)
+  # =========================================================================
+  SchoolApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      Cors:
+        AllowMethods: "'GET,POST,PUT,DELETE,OPTIONS'"
+        AllowHeaders: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key'"
+        AllowOrigin: "'*'"
+      Auth:
+        DefaultAuthorizer: CognitoAuthorizer
+        Authorizers:
+          CognitoAuthorizer:
+            UserPoolArn: !GetAtt SchoolUserPool.Arn
+
+  # =========================================================================
+  # 5. AWS LAMBDA FUNCTIONS
+  # =========================================================================
+  StudentApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/student-api/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref StudentsTable
+      Events:
+        GetStudents:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /students
+            Method: GET
+        GetStudent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /students/{id}
+            Method: GET
+        CreateStudent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /students
+            Method: POST
+        UpdateStudent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /students/{id}
+            Method: PUT
+        DeleteStudent:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /students/{id}
+            Method: DELETE
+
+  TeacherApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/teacher-api/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref TeachersTable
+      Events:
+        GetTeachers:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /teachers
+            Method: GET
+        CreateTeacher:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /teachers
+            Method: POST
+        UpdateTeacher:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /teachers/{id}
+            Method: PUT
+        DeleteTeacher:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /teachers/{id}
+            Method: DELETE
+
+  AttendanceApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/attendance-api/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref AttendanceTable
+      Events:
+        GetAttendance:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /attendance
+            Method: GET
+        PostAttendance:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /attendance
+            Method: POST
+
+  MarksApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/marks-api/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref MarksTable
+      Events:
+        GetMarks:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /marks
+            Method: GET
+        PostMarks:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /marks
+            Method: POST
+
+  FeeApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/fee-api/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref FeesTable
+      Events:
+        GetFees:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /fees
+            Method: GET
+        PostFee:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /fees
+            Method: POST
+
+  AnnouncementApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/announcement-api/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref AnnouncementsTable
+      Events:
+        GetAnnouncements:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /announcements
+            Method: GET
+        PostAnnouncement:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /announcements
+            Method: POST
+
+  UserApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/user-api/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
+      Events:
+        GetUsers:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /users
+            Method: GET
+        GetUser:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /users/{id}
+            Method: GET
+        PostUser:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /users
+            Method: POST
+        PutUser:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /users/{id}
+            Method: PUT
+        DeleteUser:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /users/{id}
+            Method: DELETE
+
+  AuditLogApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/audit-api/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref AuditLogsTable
+      Events:
+        GetAuditLogs:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /audit-logs
+            Method: GET
+        PostAuditLog:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /audit-logs
+            Method: POST
+
+  LibraryApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: lambdas/library-api/
+      Handler: index.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref LibraryTable
+      Events:
+        GetLibraryRecords:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /library
+            Method: GET
+        PostLibraryRecord:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /library
+            Method: POST
+        PutLibraryRecord:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /library/{id}
+            Method: PUT
+        DeleteLibraryRecord:
+          Type: Api
+          Properties:
+            RestApiId: !Ref SchoolApi
+            Path: /library/{id}
+            Method: DELETE
+
+Outputs:
+  ApiEndpoint:
+    Description: API Gateway Base Endpoint URL
+    Value: !Sub "https://${SchoolApi}.execute-api.${AWS::Region}.amazonaws.com/prod"
+  UserPoolId:
+    Description: Amazon Cognito User Pool ID
+    Value: !Ref SchoolUserPool
+  UserPoolClientId:
+    Description: Amazon Cognito App Client ID
+    Value: !Ref SchoolUserPoolClient
+  S3Bucket:
+    Description: S3 Document Storage Bucket
+    Value: !Ref SchoolDocumentBucket

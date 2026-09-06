@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Green Valley Public School Jalandhar</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Mobile Backdrop -->
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+    <!-- Navigation Sidebar -->
+    <aside class="sidebar" id="app-sidebar"></aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Navigation Header -->
+      <header class="topbar" id="app-topbar"></header>
+
+      <!-- Dashboard Body -->
+      <div class="page-body">
+        <!-- Header / Greeting -->
+        <div class="page-header">
+          <div class="page-header-title">
+            <h1 id="welcome-heading">Welcome to Academic Portal</h1>
+            <p id="welcome-subtext">Green Valley Public School &bull; Academic Year 2025-2026</p>
+          </div>
+          <div class="page-header-actions" id="dashboard-header-actions">
+            <a href="attendance.html" class="btn btn-outline btn-sm">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+              Mark Today's Attendance
+            </a>
+            <a href="students.html" class="btn btn-primary btn-sm" id="quick-add-student-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+              New Student Admission
+            </a>
+          </div>
+        </div>
+
+        <!-- Metrics Cards Grid -->
+        <div class="metrics-grid" id="metrics-container">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <!-- Two Column Main Grid -->
+        <div class="dashboard-grid">
+          <!-- Left Column: Recent Students & Attendance Overview -->
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <!-- Recent Students Card -->
+            <div class="card" id="recent-students-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                  <span>Recently Enrolled Students</span>
+                </div>
+                <a href="students.html" class="btn btn-outline btn-sm">View All &rarr;</a>
+              </div>
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Admission No</th>
+                      <th>Student Name</th>
+                      <th>Class & Sec</th>
+                      <th>Parent Name</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recent-students-tbody">
+                    <!-- Loaded dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Quick Action Grid -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                  <span>Quick School Operations</span>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="quick-actions-grid">
+                  <a href="students.html" class="quick-action-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+                    <span>Add Student</span>
+                  </a>
+                  <a href="attendance.html" class="quick-action-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Take Attendance</span>
+                  </a>
+                  <a href="marks.html" class="quick-action-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    <span>Enter Exam Marks</span>
+                  </a>
+                  <a href="fees.html" class="quick-action-btn">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Fee Receipt</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Announcements & School Schedule -->
+          <div style="display: flex; flex-direction: column; gap: 24px;">
+            <!-- Announcements Card -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                  <span>Notice Board</span>
+                </div>
+                <a href="announcements.html" class="btn btn-outline btn-sm">All &rarr;</a>
+              </div>
+              <div class="card-body">
+                <div class="announcement-list" id="dashboard-announcements-list">
+                  <!-- Loaded dynamically -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Upcoming Events / Exams Card -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  <span>Upcoming Examinations</span>
+                </div>
+              </div>
+              <div class="card-body" id="upcoming-exams-list">
+                <!-- Loaded dynamically -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/permissions.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      App.init('Dashboard');
+      const user = Auth.getCurrentUser();
+      if (!user) return;
+
+      // Personalized greeting
+      document.getElementById('welcome-heading').textContent = `Welcome back, ${user.name}!`;
+      document.getElementById('welcome-subtext').textContent = `${user.designation || user.role} &bull; Green Valley Public School, Jalandhar`;
+
+      // Header actions based on permissions
+      const headerActions = document.getElementById('dashboard-header-actions');
+      if (user.role === 'Student' || user.role === 'Parent') {
+        headerActions.innerHTML = `
+          <a href="results.html" class="btn btn-outline btn-sm">View Report Card</a>
+          <a href="assignments.html" class="btn btn-primary btn-sm">View Homework</a>
+        `;
+      } else if (user.role === 'Accountant') {
+        headerActions.innerHTML = `
+          <a href="fees.html" class="btn btn-primary btn-sm">Record Fee Payment</a>
+        `;
+      } else if (user.role === 'Librarian') {
+        headerActions.innerHTML = `
+          <a href="library.html" class="btn btn-primary btn-sm">Issue / Return Book</a>
+        `;
+      } else if (user.role === 'Receptionist') {
+        headerActions.innerHTML = `
+          <a href="students.html" class="btn btn-primary btn-sm">New Student Admission</a>
+        `;
+      }
+
+      await loadDashboardMetrics(user);
+      await loadRecentStudents(user);
+      await loadDashboardAnnouncements(user);
+      await loadUpcomingExams(user);
+    });
+
+    async function loadDashboardMetrics(user) {
+      const metricsEl = document.getElementById('metrics-container');
+      const [students, teachers, classes, attendance, fees, exams] = await Promise.all([
+        Api.get('students'),
+        Api.get('teachers'),
+        Api.get('classes'),
+        Api.get('attendance'),
+        Api.get('fees'),
+        Api.get('exams')
+      ]);
+
+      const role = user.role;
+
+      if (role === 'Super Admin' || role === 'Admin' || role === 'Principal') {
+        const totalPendingFee = fees.reduce((sum, f) => sum + (Number(f.pendingAmount) || 0), 0);
+        const presentCount = attendance.filter(a => a.status === 'Present').length;
+        const attendancePercent = attendance.length ? Math.round((presentCount / attendance.length) * 100) : 94;
+
+        metricsEl.innerHTML = `
+          <div class="metric-card emerald">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${students.length}</h3>
+              <p>Total Students</p>
+              <div class="metric-sub text-success">Jalandhar Campus</div>
+            </div>
+          </div>
+
+          <div class="metric-card blue">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${teachers.length}</h3>
+              <p>Faculty Members</p>
+              <div class="metric-sub text-muted">Teaching Staff</div>
+            </div>
+          </div>
+
+          <div class="metric-card amber">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${classes.length}</h3>
+              <p>Total Classes</p>
+              <div class="metric-sub text-muted">Nursery to Class 12</div>
+            </div>
+          </div>
+
+          <div class="metric-card purple">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${attendancePercent}%</h3>
+              <p>School Attendance</p>
+              <div class="metric-sub text-success">&bull; Active Session</div>
+            </div>
+          </div>
+
+          <div class="metric-card rose">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${Utils.formatCurrency(totalPendingFee)}</h3>
+              <p>Pending Dues</p>
+              <div class="metric-sub text-danger">Fee Ledger</div>
+            </div>
+          </div>
+
+          <div class="metric-card indigo">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${exams.length}</h3>
+              <p>Scheduled Exams</p>
+              <div class="metric-sub text-muted">CBSE Assessments</div>
+            </div>
+          </div>
+        `;
+      } else if (role === 'Teacher') {
+        metricsEl.innerHTML = `
+          <div class="metric-card emerald">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${user.assignedClass || 'Class 10'}</h3>
+              <p>Assigned Class</p>
+              <div class="metric-sub text-success">Section ${user.assignedSection || 'A'}</div>
+            </div>
+          </div>
+
+          <div class="metric-card blue">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${user.assignedSubject || 'Mathematics'}</h3>
+              <p>Primary Subject</p>
+              <div class="metric-sub text-muted">Curriculum In-charge</div>
+            </div>
+          </div>
+
+          <div class="metric-card purple">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${students.length}</h3>
+              <p>My Students</p>
+              <div class="metric-sub text-muted">${user.assignedClass} Roster</div>
+            </div>
+          </div>
+
+          <div class="metric-card amber">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>Half-Yearly</h3>
+              <p>Pending Marks</p>
+              <div class="metric-sub text-warning">Entry in Progress</div>
+            </div>
+          </div>
+        `;
+      } else if (role === 'Student' || role === 'Parent') {
+        const studentFee = fees.find(f => f.studentId === (user.activeChildId || user.studentId));
+        const pending = studentFee ? studentFee.pendingAmount : 0;
+
+        metricsEl.innerHTML = `
+          <div class="metric-card emerald">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>94.8%</h3>
+              <p>Academic Attendance</p>
+              <div class="metric-sub text-success">Compliant (&gt;75%)</div>
+            </div>
+          </div>
+
+          <div class="metric-card blue">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>A1</h3>
+              <p>Latest Exam Grade</p>
+              <div class="metric-sub text-success">94.0% Distinction</div>
+            </div>
+          </div>
+
+          <div class="metric-card amber">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>2 Tasks</h3>
+              <p>Active Homework</p>
+              <div class="metric-sub text-muted">Maths &amp; Punjabi</div>
+            </div>
+          </div>
+
+          <div class="metric-card ${pending > 0 ? 'rose' : 'purple'}">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${Utils.formatCurrency(pending)}</h3>
+              <p>Fee Due Balance</p>
+              <div class="metric-sub ${pending > 0 ? 'text-danger' : 'text-success'}">${pending > 0 ? 'Due for Quarter' : 'Fully Cleared'}</div>
+            </div>
+          </div>
+        `;
+      } else if (role === 'Accountant') {
+        const totalCollected = fees.reduce((sum, f) => sum + (Number(f.paidAmount) || 0), 0);
+        const totalPending = fees.reduce((sum, f) => sum + (Number(f.pendingAmount) || 0), 0);
+
+        metricsEl.innerHTML = `
+          <div class="metric-card emerald">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${Utils.formatCurrency(totalCollected)}</h3>
+              <p>Total Collected (INR)</p>
+              <div class="metric-sub text-success">Bank &amp; Cash</div>
+            </div>
+          </div>
+
+          <div class="metric-card rose">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${Utils.formatCurrency(totalPending)}</h3>
+              <p>Outstanding Overdue</p>
+              <div class="metric-sub text-danger">Recovery Pending</div>
+            </div>
+          </div>
+
+          <div class="metric-card blue">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${fees.length}</h3>
+              <p>Issued Receipts</p>
+              <div class="metric-sub text-muted">Current Session</div>
+            </div>
+          </div>
+        `;
+      } else if (role === 'Librarian') {
+        const books = await Api.get('library_books');
+        const issues = await Api.get('library_issues');
+        const activeIssues = issues.filter(i => i.status !== 'Returned');
+
+        metricsEl.innerHTML = `
+          <div class="metric-card emerald">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${books.length} Titles</h3>
+              <p>Library Catalog</p>
+              <div class="metric-sub text-success">Books Inventory</div>
+            </div>
+          </div>
+
+          <div class="metric-card blue">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${activeIssues.length} Active</h3>
+              <p>Circulating Books</p>
+              <div class="metric-sub text-muted">Issued to Students</div>
+            </div>
+          </div>
+        `;
+      } else if (role === 'Receptionist') {
+        metricsEl.innerHTML = `
+          <div class="metric-card emerald">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${students.length}</h3>
+              <p>Admitted Students</p>
+              <div class="metric-sub text-success">Enrolled Session</div>
+            </div>
+          </div>
+
+          <div class="metric-card blue">
+            <div class="metric-icon-box">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </div>
+            <div class="metric-data">
+              <h3>${classes.length}</h3>
+              <p>School Classes</p>
+              <div class="metric-sub text-muted">Reception Rosters</div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    async function loadRecentStudents(user) {
+      const tbody = document.getElementById('recent-students-tbody');
+      const students = await Api.get('students');
+      const recent = students.slice(0, 5);
+
+      if (!recent.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No student records accessible.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = recent.map(s => `
+        <tr>
+          <td><strong>${s.admissionNo}</strong></td>
+          <td>${s.name}</td>
+          <td>${s.class} (${s.section})</td>
+          <td>${s.parentName || '-'}</td>
+          <td><span class="badge ${s.status === 'Active' ? 'badge-success' : 'badge-danger'}">${s.status}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadDashboardAnnouncements(user) {
+      const listEl = document.getElementById('dashboard-announcements-list');
+      const announcements = await Api.get('announcements');
+      const filtered = announcements.slice(0, 3);
+
+      if (!filtered.length) {
+        listEl.innerHTML = '<p class="text-muted" style="font-size: 0.85rem;">No active announcements today.</p>';
+        return;
+      }
+
+      listEl.innerHTML = filtered.map(a => `
+        <div class="announcement-item">
+          <div class="announcement-header">
+            <h4>${a.title}</h4>
+            <span class="badge ${a.priority === 'High' ? 'badge-danger' : 'badge-primary'}">${a.priority}</span>
+          </div>
+          <p>${a.description.length > 95 ? a.description.slice(0, 95) + '...' : a.description}</p>
+          <div class="announcement-meta">
+            <span>📅 ${Utils.formatDate(a.date, 'readable')}</span>
+            <span>Audience: ${a.audience}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function loadUpcomingExams(user) {
+      const listEl = document.getElementById('upcoming-exams-list');
+      if (['Accountant', 'Librarian'].includes(user.role)) {
+        listEl.innerHTML = '<p class="text-muted" style="font-size: 0.85rem;">Module not applicable to your role.</p>';
+        return;
+      }
+
+      const exams = await Api.get('exams');
+
+      if (!exams.length) {
+        listEl.innerHTML = '<p class="text-muted" style="font-size: 0.85rem;">No upcoming exams scheduled.</p>';
+        return;
+      }
+
+      listEl.innerHTML = exams.slice(0, 3).map(e => `
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border);">
+          <div>
+            <div style="font-weight: 700; font-size: 0.9rem;">${e.subject} &bull; ${e.class}</div>
+            <div style="font-size: 0.78rem; color: var(--text-muted);">${e.name}</div>
+          </div>
+          <div style="text-align: right;">
+            <span class="badge badge-info">${Utils.formatDate(e.date, 'readable')}</span>
+            <div style="font-size: 0.72rem; color: var(--text-subtle); margin-top: 3px;">${e.startTime} - ${e.endTime}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

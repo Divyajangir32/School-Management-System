@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Settings | Green Valley Public School</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <aside class="sidebar" id="app-sidebar"></aside>
+
+    <main class="main-content">
+      <header class="topbar" id="app-topbar"></header>
+
+      <div class="page-body">
+        <div class="page-header">
+          <div class="page-header-title">
+            <h1>System Settings &amp; AWS Cloud Integration</h1>
+            <p>School profile, CBSE academic configuration, database operations &amp; AWS deployment endpoints</p>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 24px; max-width: 900px;">
+          <!-- School Profile Information Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                <span>School Profile &amp; Affiliation</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">School Name</label>
+                  <input type="text" class="form-control" value="Green Valley Public School" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">CBSE Affiliation Number</label>
+                  <input type="text" class="form-control" value="1630892 (CBSE, New Delhi)" readonly>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Location Address</label>
+                  <input type="text" class="form-control" value="Urban Estate Phase II, Jalandhar, Punjab - 144022, India" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Official Phone Helpline</label>
+                  <input type="text" class="form-control" value="+91 98765 43210" readonly>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Official Email</label>
+                  <input type="email" class="form-control" value="info@greenvalleyschool.example" readonly>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Current Academic Session</label>
+                  <input type="text" class="form-control" value="2025 - 2026" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AWS Production Cloud Configuration Card -->
+          <div class="card" style="border-left: 4px solid #0284c7;">
+            <div class="card-header" style="background: #f0f9ff;">
+              <div class="card-title" style="color: #0369a1;">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                <span>AWS Serverless Production Configuration</span>
+              </div>
+              <span class="badge badge-info" id="aws-mode-badge">Development Offline Mode</span>
+            </div>
+            <div class="card-body">
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 20px;">
+                Connect this frontend with your AWS Cloud infrastructure (API Gateway, Amazon Cognito, DynamoDB &amp; S3). 
+                Toggle below to switch between <strong>Local Development Mode</strong> and <strong>Live AWS Cloud Backend</strong>.
+              </p>
+
+              <form id="aws-settings-form">
+                <div class="form-group" style="background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+                  <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 700;">
+                    <input type="checkbox" id="cfg-use-aws" style="width: 18px; height: 18px;">
+                    <span>Enable AWS Cloud Backend (Production Mode)</span>
+                  </label>
+                  <div class="form-help" style="margin-left: 28px;">
+                    When enabled, all student, marks, fee, and auth calls will be routed through Amazon API Gateway &amp; AWS Cognito.
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-aws-region">AWS Region</label>
+                    <input type="text" id="cfg-aws-region" class="form-control" value="ap-south-1" placeholder="ap-south-1 (Mumbai)">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-api-url">Amazon API Gateway Base URL</label>
+                    <input type="url" id="cfg-api-url" class="form-control" value="https://api.greenvalleyschool.example/prod" placeholder="https://{api-id}.execute-api.ap-south-1.amazonaws.com/prod">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-pool-id">Cognito User Pool ID</label>
+                    <input type="text" id="cfg-pool-id" class="form-control" value="ap-south-1_gvpsPool123" placeholder="ap-south-1_xxxxxxxxx">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-client-id">Cognito App Client ID</label>
+                    <input type="text" id="cfg-client-id" class="form-control" value="3k4j5h6g7f8d9s0a1b2c3d4e5f" placeholder="App Client ID">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-s3-bucket">Amazon S3 Storage Bucket</label>
+                    <input type="text" id="cfg-s3-bucket" class="form-control" value="gvps-school-documents-jalandhar">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="cfg-cloudfront">Amazon CloudFront CDN URL</label>
+                    <input type="text" id="cfg-cloudfront" class="form-control" value="https://d111111abcdef8.cloudfront.net">
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="margin-top: 10px;">
+                  Save AWS Configuration
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- CBSE Grading Scale Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>CBSE 9-Point Grading Configuration</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Marks Range (%)</th>
+                    <th>Grade</th>
+                    <th>Grade Point</th>
+                    <th>Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td>91 - 100</td><td><span class="badge badge-success">A1</span></td><td>10.0</td><td>Outstanding</td></tr>
+                  <tr><td>81 - 90</td><td><span class="badge badge-success">A2</span></td><td>9.0</td><td>Excellent</td></tr>
+                  <tr><td>71 - 80</td><td><span class="badge badge-primary">B1</span></td><td>8.0</td><td>Very Good</td></tr>
+                  <tr><td>61 - 70</td><td><span class="badge badge-primary">B2</span></td><td>7.0</td><td>Good</td></tr>
+                  <tr><td>51 - 60</td><td><span class="badge badge-warning">C1</span></td><td>6.0</td><td>Above Average</td></tr>
+                  <tr><td>41 - 50</td><td><span class="badge badge-warning">C2</span></td><td>5.0</td><td>Average</td></tr>
+                  <tr><td>33 - 40</td><td><span class="badge badge-neutral">D</span></td><td>4.0</td><td>Pass</td></tr>
+                  <tr><td>Below 33</td><td><span class="badge badge-danger">E</span></td><td>0.0</td><td>Needs Improvement / Fail</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Danger Zone: Reset Data -->
+          <div class="card" style="border: 1px solid #fee2e2;">
+            <div class="card-header" style="background: #fff1f2;">
+              <div class="card-title" style="color: #be123c;">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                <span>Reset Database to Initial State</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 14px;">
+                Resets students, faculty, attendance, exam scores, fees and timetables back to the default Green Valley Public School (Jalandhar) dataset.
+              </p>
+              <button type="button" class="btn btn-danger btn-sm" id="reset-db-btn">
+                Reset Demo Data
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/permissions.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      App.init('System Settings');
+
+      // Populate current AWS settings
+      const useAwsBox = document.getElementById('cfg-use-aws');
+      const badge = document.getElementById('aws-mode-badge');
+      useAwsBox.checked = APP_CONFIG.USE_AWS_BACKEND;
+
+      if (APP_CONFIG.USE_AWS_BACKEND) {
+        badge.textContent = 'AWS Cloud Active';
+        badge.className = 'badge badge-success';
+      }
+
+      document.getElementById('cfg-aws-region').value = APP_CONFIG.AWS.REGION;
+      document.getElementById('cfg-api-url').value = APP_CONFIG.AWS.API_BASE_URL;
+      document.getElementById('cfg-pool-id').value = APP_CONFIG.AWS.COGNITO_USER_POOL_ID;
+      document.getElementById('cfg-client-id').value = APP_CONFIG.AWS.COGNITO_CLIENT_ID;
+      document.getElementById('cfg-s3-bucket').value = APP_CONFIG.AWS.S3_BUCKET_NAME;
+      document.getElementById('cfg-cloudfront').value = APP_CONFIG.AWS.CLOUDFRONT_DOMAIN;
+
+      // Handle AWS Form Save
+      document.getElementById('aws-settings-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        APP_CONFIG.USE_AWS_BACKEND = useAwsBox.checked;
+        APP_CONFIG.AWS.REGION = document.getElementById('cfg-aws-region').value.trim();
+        APP_CONFIG.AWS.API_BASE_URL = document.getElementById('cfg-api-url').value.trim();
+        APP_CONFIG.AWS.COGNITO_USER_POOL_ID = document.getElementById('cfg-pool-id').value.trim();
+        APP_CONFIG.AWS.COGNITO_CLIENT_ID = document.getElementById('cfg-client-id').value.trim();
+        APP_CONFIG.AWS.S3_BUCKET_NAME = document.getElementById('cfg-s3-bucket').value.trim();
+        APP_CONFIG.AWS.CLOUDFRONT_DOMAIN = document.getElementById('cfg-cloudfront').value.trim();
+
+        if (APP_CONFIG.USE_AWS_BACKEND) {
+          badge.textContent = 'AWS Cloud Active';
+          badge.className = 'badge badge-success';
+        } else {
+          badge.textContent = 'Development Offline Mode';
+          badge.className = 'badge badge-info';
+        }
+
+        Utils.showToast('AWS Settings updated successfully', 'success');
+      });
+
+      // Handle Reset DB
+      document.getElementById('reset-db-btn').addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset the database? All changes will be overwritten with default Jalandhar school data.')) {
+          Api.resetDemoData();
+          Utils.showToast('Database reset to defaults', 'success');
+          setTimeout(() => location.reload(), 800);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

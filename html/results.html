@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Results &amp; Report Card | Green Valley Public School</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    @media print {
+      body * { visibility: hidden; }
+      #printable-report-card, #printable-report-card * { visibility: visible; }
+      #printable-report-card {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: none !important;
+        box-shadow: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <aside class="sidebar" id="app-sidebar"></aside>
+
+    <main class="main-content">
+      <header class="topbar" id="app-topbar"></header>
+
+      <div class="page-body">
+        <div class="page-header no-print">
+          <div class="page-header-title">
+            <h1>Results &amp; Academic Report Cards</h1>
+            <p>Generate, review and print CBSE standard student report cards</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-outline" onclick="window.print()">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              Print Report Card
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar no-print">
+          <div class="filter-actions" style="width: 100%; display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end;">
+            <div class="form-group" style="margin-bottom: 0; min-width: 200px;">
+              <label class="form-label" for="res-class-select">Select Class</label>
+              <select id="res-class-select" class="form-control form-select" required></select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0; min-width: 220px;">
+              <label class="form-label" for="res-exam-select">Examination</label>
+              <select id="res-exam-select" class="form-control form-select" required></select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0; min-width: 240px;">
+              <label class="form-label" for="res-student-select">Select Student</label>
+              <select id="res-student-select" class="form-control form-select" required></select>
+            </div>
+            <button class="btn btn-primary" id="view-report-card-btn" style="height: 42px;">
+              Generate Card
+            </button>
+          </div>
+        </div>
+
+        <!-- Printable Official Report Card Container -->
+        <div class="report-card-print" id="printable-report-card">
+          <!-- School Crest & Header -->
+          <div class="report-card-header">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 18px; margin-bottom: 12px;">
+              <img src="../assets/images/logo.svg" alt="GVPS Crest" width="70" height="70">
+              <div style="text-align: left;">
+                <h1 style="font-size: 1.7rem; color: #064e3b; margin-bottom: 2px;">GREEN VALLEY PUBLIC SCHOOL</h1>
+                <div style="font-weight: 600; font-size: 0.88rem; color: #334155;">Urban Estate Phase II, Jalandhar, Punjab - 144022, India</div>
+                <div class="school-affiliation">Affiliated to Central Board of Secondary Education (CBSE), New Delhi &bull; Affil No: 1630892</div>
+              </div>
+            </div>
+            <div style="background: #064e3b; color: #ffffff; padding: 6px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-size: 0.95rem; border-radius: 4px; margin-top: 10px;">
+              Official Student Academic Performance Record &bull; Session 2025-2026
+            </div>
+          </div>
+
+          <!-- Student Profile Details Grid -->
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 24px; padding: 14px 18px; background: #f8fafc; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 20px; font-size: 0.92rem;">
+            <div><strong>Student Name:</strong> <span id="card-student-name">-</span></div>
+            <div><strong>Admission No:</strong> <span id="card-adm-no">-</span></div>
+            <div><strong>Class &amp; Section:</strong> <span id="card-class-section">-</span></div>
+            <div><strong>Roll Number:</strong> <span id="card-roll-no">-</span></div>
+            <div><strong>Father's / Guardian's Name:</strong> <span id="card-parent-name">-</span></div>
+            <div><strong>Examination:</strong> <span id="card-exam-name">-</span></div>
+          </div>
+
+          <!-- Subject Marks Table -->
+          <div class="table-responsive" style="margin-bottom: 20px;">
+            <table class="data-table" style="border: 1px solid #0f172a;">
+              <thead style="background: #e2e8f0;">
+                <tr>
+                  <th style="border: 1px solid #0f172a; color: #000;">Subject Code</th>
+                  <th style="border: 1px solid #0f172a; color: #000;">Subject Name</th>
+                  <th style="border: 1px solid #0f172a; color: #000; text-align: center;">Max Marks</th>
+                  <th style="border: 1px solid #0f172a; color: #000; text-align: center;">Marks Obtained</th>
+                  <th style="border: 1px solid #0f172a; color: #000; text-align: center;">Percentage</th>
+                  <th style="border: 1px solid #0f172a; color: #000; text-align: center;">Grade</th>
+                </tr>
+              </thead>
+              <tbody id="card-marks-tbody">
+                <!-- Loaded via JS -->
+              </tbody>
+              <tfoot style="background: #f1f5f9; font-weight: 700;">
+                <tr>
+                  <td colspan="2" style="border: 1px solid #0f172a; text-align: right;">GRAND TOTAL</td>
+                  <td id="card-total-max" style="border: 1px solid #0f172a; text-align: center;">-</td>
+                  <td id="card-total-obtained" style="border: 1px solid #0f172a; text-align: center;">-</td>
+                  <td id="card-total-pct" style="border: 1px solid #0f172a; text-align: center;">-</td>
+                  <td id="card-final-grade" style="border: 1px solid #0f172a; text-align: center;">-</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- Overall Result Summary Box -->
+          <div style="display: flex; justify-content: space-between; align-items: center; border: 1.5px solid #064e3b; padding: 14px 20px; border-radius: 6px; background: #ecfdf5; margin-bottom: 40px;">
+            <div>
+              <div style="font-size: 0.85rem; color: #065f46; font-weight: 600;">FINAL ACADEMIC EVALUATION</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #064e3b;" id="card-overall-result">PASSED WITH DISTINCTION</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 0.85rem; color: #065f46; font-weight: 600;">AGGREGATE PERCENTAGE</div>
+              <div style="font-size: 1.35rem; font-weight: 800; color: #064e3b;" id="card-aggregate-pct">94.0%</div>
+            </div>
+          </div>
+
+          <!-- Signatures Footer -->
+          <div style="display: flex; justify-content: space-between; padding-top: 30px; margin-top: 30px; border-top: 1px dashed #94a3b8;">
+            <div style="text-align: center; width: 180px;">
+              <div style="border-bottom: 1px solid #000; height: 35px; margin-bottom: 6px;"></div>
+              <div style="font-size: 0.85rem; font-weight: 700;">Class Teacher</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Signature</div>
+            </div>
+            <div style="text-align: center; width: 180px;">
+              <div style="border-bottom: 1px solid #000; height: 35px; margin-bottom: 6px; display: flex; align-items: flex-end; justify-content: center; font-family: cursive; font-size: 0.95rem; color: #064e3b;">GVPS Admin Seal</div>
+              <div style="font-size: 0.85rem; font-weight: 700;">Controller of Exams</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Verification</div>
+            </div>
+            <div style="text-align: center; width: 180px;">
+              <div style="border-bottom: 1px solid #000; height: 35px; margin-bottom: 6px;"></div>
+              <div style="font-size: 0.85rem; font-weight: 700;">Principal</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Green Valley Public School</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/permissions.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/results.js"></script>
+</body>
+</html>

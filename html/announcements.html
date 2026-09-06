@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Announcements &amp; Circulars | Green Valley Public School</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <aside class="sidebar" id="app-sidebar"></aside>
+
+    <main class="main-content">
+      <header class="topbar" id="app-topbar"></header>
+
+      <div class="page-body">
+        <div class="page-header">
+          <div class="page-header-title">
+            <h1>School Notices &amp; Circulars</h1>
+            <p>Official school announcements, events, CBSE updates &amp; administrative circulars</p>
+          </div>
+          <div class="page-header-actions" id="announcement-actions-container">
+            <button class="btn btn-primary" id="open-add-announcement-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+              Publish Circular
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <div class="search-input-wrapper">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" id="announcement-search-input" class="form-control" placeholder="Search notices by title, contents, author...">
+          </div>
+          <div class="filter-actions">
+            <select id="filter-audience-select" class="form-control form-select" style="min-width: 160px;">
+              <option value="">All Audiences</option>
+              <option value="Everyone">Everyone</option>
+              <option value="Teachers">Teachers</option>
+              <option value="Students">Students</option>
+              <option value="Parents">Parents</option>
+            </select>
+            <select id="filter-priority-select" class="form-control form-select" style="min-width: 140px;">
+              <option value="">All Priorities</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Circular / Notice Title</th>
+                  <th>Audience</th>
+                  <th>Priority</th>
+                  <th>Author / Office</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="announcements-table-body">
+                <!-- Loaded via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Announcement Modal -->
+  <div class="modal-overlay" id="announcement-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title" id="announcement-modal-title">Publish Notice / Circular</h3>
+        <button type="button" class="modal-close" onclick="Utils.closeModal('announcement-modal')">&times;</button>
+      </div>
+      <form id="announcement-form">
+        <input type="hidden" id="announcement-form-id">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="anc-title">Notice Title <span class="required">*</span></label>
+            <input type="text" id="anc-title" class="form-control" placeholder="e.g. CBSE Practical Examination Guidelines 2025" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="anc-audience">Audience <span class="required">*</span></label>
+              <select id="anc-audience" class="form-control form-select" required>
+                <option value="Everyone">Everyone (Public Notice)</option>
+                <option value="Teachers">Faculty &amp; Teachers Only</option>
+                <option value="Students">Students Only</option>
+                <option value="Parents">Parents Only</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="anc-priority">Priority Level</label>
+              <select id="anc-priority" class="form-control form-select">
+                <option value="High">High (Red Alert)</option>
+                <option value="Medium" selected>Medium (Normal)</option>
+                <option value="Low">Low (Informational)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="anc-date">Circular Date <span class="required">*</span></label>
+              <input type="date" id="anc-date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="anc-author">Issuing Authority</label>
+              <input type="text" id="anc-author" class="form-control" value="Principal Office" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="anc-desc">Detailed Message / Circular Text <span class="required">*</span></label>
+            <textarea id="anc-desc" class="form-control" rows="5" placeholder="Enter complete notification text..." required></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="Utils.closeModal('announcement-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-anc-btn">Publish Notice</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/permissions.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/announcements.js"></script>
+</body>
+</html>

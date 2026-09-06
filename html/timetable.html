@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Timetable | Green Valley Public School</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <aside class="sidebar" id="app-sidebar"></aside>
+
+    <main class="main-content">
+      <header class="topbar" id="app-topbar"></header>
+
+      <div class="page-body">
+        <div class="page-header">
+          <div class="page-header-title">
+            <h1>Weekly Class Timetable</h1>
+            <p>Period schedules, classroom allotments, faculty allocations &amp; break timings</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-outline" onclick="window.print()">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+              Print Routine
+            </button>
+            <button class="btn btn-primary" id="open-add-slot-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg>
+              Add Period Slot
+            </button>
+          </div>
+        </div>
+
+        <!-- Class Selector -->
+        <div class="filter-bar no-print">
+          <div class="filter-actions" style="width: 100%; display: flex; gap: 14px; align-items: flex-end;">
+            <div class="form-group" style="margin-bottom: 0; min-width: 240px;">
+              <label class="form-label" for="tt-class-select">Select Timetable Class</label>
+              <select id="tt-class-select" class="form-control form-select" required></select>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); padding-bottom: 8px;">
+              Regular Session: 08:00 AM – 02:00 PM (Monday to Friday)
+            </div>
+          </div>
+        </div>
+
+        <!-- Timetable Matrix Grid Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title" id="tt-header-title">
+              <span>Weekly Schedule Matrix</span>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table timetable-table">
+              <thead>
+                <tr>
+                  <th style="min-width: 110px;">Day</th>
+                  <th>Period 1<br><span style="font-size: 0.7rem; font-weight: normal;">08:00 - 08:50</span></th>
+                  <th>Period 2<br><span style="font-size: 0.7rem; font-weight: normal;">08:50 - 09:40</span></th>
+                  <th>Period 3<br><span style="font-size: 0.7rem; font-weight: normal;">09:40 - 10:30</span></th>
+                  <th style="background: #fef3c7; color: #92400e; width: 85px;">Recess<br><span style="font-size: 0.7rem; font-weight: normal;">10:30 - 10:50</span></th>
+                  <th>Period 4<br><span style="font-size: 0.7rem; font-weight: normal;">10:50 - 11:40</span></th>
+                  <th>Period 5<br><span style="font-size: 0.7rem; font-weight: normal;">11:40 - 12:30</span></th>
+                  <th>Period 6<br><span style="font-size: 0.7rem; font-weight: normal;">12:30 - 01:20</span></th>
+                </tr>
+              </thead>
+              <tbody id="timetable-matrix-body">
+                <!-- Injected via timetable.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add Slot Modal -->
+  <div class="modal-overlay" id="timetable-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Add / Update Timetable Slot</h3>
+        <button type="button" class="modal-close" onclick="Utils.closeModal('timetable-modal')">&times;</button>
+      </div>
+      <form id="timetable-form">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="slot-day">Day of Week <span class="required">*</span></label>
+              <select id="slot-day" class="form-control form-select" required>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="slot-period">Period Slot <span class="required">*</span></label>
+              <select id="slot-period" class="form-control form-select" required>
+                <option value="08:00 - 08:50">Period 1 (08:00 - 08:50)</option>
+                <option value="08:50 - 09:40">Period 2 (08:50 - 09:40)</option>
+                <option value="09:40 - 10:30">Period 3 (09:40 - 10:30)</option>
+                <option value="10:50 - 11:40">Period 4 (10:50 - 11:40)</option>
+                <option value="11:40 - 12:30">Period 5 (11:40 - 12:30)</option>
+                <option value="12:30 - 01:20">Period 6 (12:30 - 01:20)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="slot-subject">Subject <span class="required">*</span></label>
+              <select id="slot-subject" class="form-control form-select" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="slot-teacher">Teacher <span class="required">*</span></label>
+              <select id="slot-teacher" class="form-control form-select" required></select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="slot-room">Classroom / Lab</label>
+            <input type="text" id="slot-room" class="form-control" placeholder="Room 204" value="Room 204">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="Utils.closeModal('timetable-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-slot-btn">Save Slot</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/permissions.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/timetable.js"></script>
+</body>
+</html>

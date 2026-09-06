@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marks Entry | Green Valley Public School</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+    <aside class="sidebar" id="app-sidebar"></aside>
+
+    <main class="main-content">
+      <header class="topbar" id="app-topbar"></header>
+
+      <div class="page-body">
+        <div class="page-header">
+          <div class="page-header-title">
+            <h1>Academic Marks Entry</h1>
+            <p>Enter test scores, auto-calculate CBSE grades (A1 to E), percentages &amp; pass/fail</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-primary" id="save-marks-batch-btn">
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"/></svg>
+              Save Marks Entries
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter / Exam Selector Bar -->
+        <div class="filter-bar">
+          <div class="filter-actions" style="width: 100%; display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end;">
+            <div class="form-group" style="margin-bottom: 0; min-width: 220px;">
+              <label class="form-label" for="mrk-exam-select">Select Examination</label>
+              <select id="mrk-exam-select" class="form-control form-select" required></select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0; min-width: 170px;">
+              <label class="form-label" for="mrk-class-select">Class</label>
+              <select id="mrk-class-select" class="form-control form-select" required></select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0; min-width: 120px;">
+              <label class="form-label" for="mrk-section-select">Section</label>
+              <select id="mrk-section-select" class="form-control form-select">
+                <option value="A">Section A</option>
+                <option value="B">Section B</option>
+                <option value="C">Section C</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0; min-width: 180px;">
+              <label class="form-label" for="mrk-subject-select">Subject</label>
+              <select id="mrk-subject-select" class="form-control form-select" required></select>
+            </div>
+            <div class="form-group" style="margin-bottom: 0; max-width: 120px;">
+              <label class="form-label" for="mrk-max-marks">Max Marks</label>
+              <input type="number" id="mrk-max-marks" class="form-control" value="100" min="10" max="100">
+            </div>
+            <button class="btn btn-secondary" id="load-marks-grid-btn" style="height: 42px;">
+              Load Students
+            </button>
+          </div>
+        </div>
+
+        <!-- Marks Grading Scale Pill -->
+        <div style="background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 16px; margin-bottom: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-size: 0.78rem;">
+          <span style="font-weight: 700; color: var(--primary);">CBSE 9-Point Scale:</span>
+          <span>91–100: <strong class="text-success">A1</strong></span>
+          <span>81–90: <strong class="text-success">A2</strong></span>
+          <span>71–80: <strong class="text-primary">B1</strong></span>
+          <span>61–70: <strong class="text-primary">B2</strong></span>
+          <span>51–60: <strong class="text-warning">C1</strong></span>
+          <span>41–50: <strong class="text-warning">C2</strong></span>
+          <span>33–40: <strong class="text-warning">D (Pass)</strong></span>
+          <span>&lt;33: <strong class="text-danger">E (Fail)</strong></span>
+        </div>
+
+        <!-- Marks Entry Table Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title" id="marks-header-title">
+              <span>Marks Sheet</span>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Roll No</th>
+                  <th>Student Name</th>
+                  <th>Admission No</th>
+                  <th style="width: 150px;">Marks Obtained</th>
+                  <th>Max Marks</th>
+                  <th>Percentage</th>
+                  <th>CBSE Grade</th>
+                  <th>Result Status</th>
+                </tr>
+              </thead>
+              <tbody id="marks-table-body">
+                <!-- Injected via marks.js -->
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer" style="justify-content: flex-end;">
+            <button class="btn btn-primary" id="save-marks-batch-btn-bottom">
+              Save Marks Entries
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/permissions.js"></script>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/marks.js"></script>
+</body>
+</html>

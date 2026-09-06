@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>403 - Access Denied | Green Valley Public School</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    body {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+    .denied-card {
+      background: #ffffff;
+      max-width: 520px;
+      width: 100%;
+      padding: 44px 32px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-xl);
+    }
+    .denied-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #fee2e2;
+      color: #dc2626;
+      margin-bottom: 20px;
+    }
+    .denied-code {
+      font-size: 3.2rem;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .denied-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #dc2626;
+      margin-bottom: 12px;
+    }
+    .denied-msg {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .user-pill {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      font-size: 0.85rem;
+      margin-bottom: 24px;
+      display: inline-block;
+    }
+    .action-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="denied-card">
+    <div class="denied-badge">
+      <svg width="38" height="38" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m0 0v2m0-2h2m-2 0H10m2-11a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+    </div>
+    <div class="denied-code">403</div>
+    <div class="denied-title">Access Denied / Forbidden</div>
+    <p class="denied-msg">
+      You do not have the required authority or role permissions to view this resource. 
+      Access to this module is strictly monitored and logged under Green Valley Public School Security Policy.
+    </p>
+
+    <div class="user-pill" id="current-user-pill">
+      Logged in as: <strong id="denied-user-name">-</strong> (<span id="denied-user-role">-</span>)
+    </div>
+
+    <div class="action-group">
+      <a href="dashboard.html" class="btn btn-primary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        Return to Dashboard
+      </a>
+      <a href="login.html" class="btn btn-outline" onclick="Auth.logout()">
+        Switch Account / Login
+      </a>
+    </div>
+  </div>
+
+  <script src="../js/config.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Auth.getCurrentUser();
+      if (user) {
+        document.getElementById('denied-user-name').textContent = user.name || 'User';
+        document.getElementById('denied-user-role').textContent = user.role || 'Unassigned';
+      } else {
+        document.getElementById('current-user-pill').textContent = 'Not currently signed in.';
+      }
+    });
+  </script>
+</body>
+</html>
